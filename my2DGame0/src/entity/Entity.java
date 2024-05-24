@@ -7,9 +7,10 @@ public class Entity {
 	 public int speed;
 	 public int vx, vy;
 	 
-	 public BufferedImage up0, up1, up2, down0, down1, down2, left0, left1, left2, right0, right1, right2, bullet;
+	 public BufferedImage up0, up1, up2, down0, down1, down2, left0, left1, left2, right0, right1, right2, bulletImage;
 	 public String direction;
 	 
+	 public boolean left, right, up, down;
 	 public int spriteCounter = 0;
 	 public int spriteNum = 1;
 }

@@ -21,6 +21,7 @@ public class Player extends Entity{
 		setDefaultValues();
 		getPlayerImage();
 	}
+	
 	public void setDefaultValues() {
 		x = 100;
 		y = 100;
@@ -48,6 +49,7 @@ public class Player extends Entity{
 		}
 	}
 	public void update() {
+		
 		if(keyH.upPressed == true) {
 			direction = "up";
 			y -= speed;
@@ -133,13 +135,5 @@ public class Player extends Entity{
 		}
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null);
 
-	}
-	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
 	}
 }

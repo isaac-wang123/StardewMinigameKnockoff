@@ -1,5 +1,8 @@
 package entity;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
@@ -12,23 +15,31 @@ public class Bullet extends Entity{
 	public boolean selfDestruct = false;
 	
 	public Bullet(GamePanel gp, KeyHandler keyH, int x, int y) {
+
 		this.gp = gp;
 		this.keyH = keyH;
 		
 		getBulletImage();
 		
 		setValues(x,y);
+		
 	}
+	
 	public void getBulletImage() {
 		try {
-			bullet = ImageIO.read(getClass().getResourceAsStream("/bullet/bullet.png"));
+			
+			bulletImage = ImageIO.read(getClass().getResourceAsStream("/bullet/bulletv3.png"));
+			
 		} catch(Exception e) {
+			
 			e.printStackTrace();
+			
 		}
 	}
 	
 	public void setValues(int x, int y) {
-		speed = 5;
+		
+		speed = 20;
 		
 		this.x = x;
 		this.y = y;
@@ -42,18 +53,25 @@ public class Bullet extends Entity{
 		if (keyH.rightArrowPressed==true) {
 			vx = speed;
 		} else if(keyH.leftArrowPressed==true) {
-			vx = speed;
+			vx = -speed;
 		}
 	}
 	
 	public void update() {
+		
 		x += vx;
 		y += vy;
 		
-		if(x < 0 || x > GamePanel.screenWidth||y < 0 || y > screenHeight) {
-			
+		if(x < -gp.tileSize || x > gp.screenWidth||y < -gp.tileSize || y > gp.screenHeight) {
 			selfDestruct = true;
 		}
-			
+		
+	}
+	
+	public void draw(Graphics2D g2) {
+		
+		BufferedImage image = bulletImage;
+		
+		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null);
 	}
 }

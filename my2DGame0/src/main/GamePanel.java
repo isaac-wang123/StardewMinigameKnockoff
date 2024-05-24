@@ -23,7 +23,10 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	KeyHandler keyH = new KeyHandler();
 	Thread gameThread;
+	
 	Player player = new Player(this,keyH);	
+	
+	BulletManager bulletManager = new BulletManager(this, keyH);
 	
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -72,7 +75,10 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
+		
 		player.update();		
+		
+		bulletManager.update(player);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -81,7 +87,10 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
+		bulletManager.draw(g2);
+		
 		player.draw(g2);
+		
 		g2.dispose();
 	}
 	
