@@ -33,7 +33,6 @@ public class TileManager {
 		}
 	}
 	
-	
 	public void loadMap() {
 		try {
 			InputStream is = getClass().getResourceAsStream("/maps/map1.txt");
