@@ -47,6 +47,7 @@ public class BulletManager {
 			if(counter == 0) {
 								
 				bullets.add(new Bullet(gp, keyH, player.x, player.y));
+				
 				counter += fireInterval + 1;
 			}
 		}	
@@ -60,8 +61,8 @@ public class BulletManager {
 	}
 	
 	public void draw(Graphics2D g2) {
+		
 		for(int i = 0; i < bullets.size(); i++) {
-			
 			bullets.get(i).draw(g2);
 			
 		}
