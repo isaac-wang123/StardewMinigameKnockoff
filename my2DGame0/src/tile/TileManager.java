@@ -21,6 +21,7 @@ public class TileManager {
 		this.gp = gp;
 		tiles = new Tile[gp.maxScreenCol][gp.maxScreenRow];
 		tileId = new int[gp.maxScreenCol][gp.maxScreenRow];
+		
 		images = new BufferedImage[10];
 		getImage();
 		loadMap();
@@ -28,7 +29,8 @@ public class TileManager {
 	
 	public void getImage() {
 		try {
-			images[0] = ImageIO.read(getClass().getResourceAsStream("/tiles/testTileRed.png"));
+			
+			images[1] = ImageIO.read(getClass().getResourceAsStream("/tiles/testTileRed.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -36,21 +38,47 @@ public class TileManager {
 	}
 	
 	public void loadMap() {
-		for(int i= 0; i < tiles.length; i++) {
-			for(int j = 0; j < tiles[i].length;j++) {
-				InputStream is = getClass().getResourceAsStream("/maps/map1.txt");
-				BufferedReader br = new BufferedReader(new InputStreamReader(is));
-				tiles[i][j] = new Tile(gp, i*gp.tileSize, j*gp.tileSize,images[0]);
+		try {
+			InputStream is = getClass().getResourceAsStream("/maps/map1.txt");
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			
+			int col = 0;
+			int row = 0;
+			
+			while(col < gp.maxScreenCol && row < gp.maxScreenRow) {
+				String line = br.readLine();
+				String numbers[] = line.split(" ");
+				while(col < gp.maxScreenCol) {
+					
+					int num = Integer.parseInt(numbers[col]);
+					tileId[col][row] = num;
+					
+					if(num ==0) {
+						col++;
+						continue;
+					}
+					
+					tiles[row][col] = new Tile(gp, row*gp.tileSize, col*gp.tileSize,images[num]);
+					col++;
+				}
+				if(col == gp.maxScreenCol) {
+					col = 0;
+					row++;
+				}
 			}
+				
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void draw(Graphics2D g2) {
-		for(int i= 0; i < tiles.length; i++) {
-			for(int j = 0; j < tiles[i].length;j++) {
-				tiles[i][j].draw(g2);
+		for(Tile[] rows: tiles) {
+			for(Tile tile : rows) {
+				if(tile!=null) {
+					tile.draw(g2);
+				}
 			}
 		}
-		
 	}
 }
