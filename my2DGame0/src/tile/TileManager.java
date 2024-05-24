@@ -13,24 +13,20 @@ import main.GamePanel;
 
 public class TileManager {
 	Tile[][] tiles;
-	int[][] tileId;
 	GamePanel gp;
-	BufferedImage[] images;
+	ImageAndCollision[] images;
 	
 	public TileManager(GamePanel gp) {
 		this.gp = gp;
 		tiles = new Tile[gp.maxScreenCol][gp.maxScreenRow];
-		tileId = new int[gp.maxScreenCol][gp.maxScreenRow];
-		
-		images = new BufferedImage[10];
+		images = new ImageAndCollision[10];
 		getImage();
 		loadMap();
 	}
 	
 	public void getImage() {
 		try {
-			
-			images[1] = ImageIO.read(getClass().getResourceAsStream("/tiles/testTileRed.png"));
+			images[1] = new ImageAndCollision(ImageIO.read(getClass().getResourceAsStream("/tiles/testTileRed.png")),true);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -51,14 +47,13 @@ public class TileManager {
 				while(col < gp.maxScreenCol) {
 					
 					int num = Integer.parseInt(numbers[col]);
-					tileId[col][row] = num;
 					
 					if(num ==0) {
 						col++;
 						continue;
 					}
 					
-					tiles[row][col] = new Tile(gp, row*gp.tileSize, col*gp.tileSize,images[num]);
+					tiles[row][col] = new Tile(gp, row*gp.tileSize, col*gp.tileSize,images[num].image, images[num].collision);
 					col++;
 				}
 				if(col == gp.maxScreenCol) {
@@ -81,4 +76,5 @@ public class TileManager {
 			}
 		}
 	}
+	
 }

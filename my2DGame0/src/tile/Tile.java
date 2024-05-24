@@ -13,13 +13,17 @@ public class Tile {
 	public BufferedImage image;
 	
 	public boolean collision = false;
-
-	public Tile(GamePanel gp, int x, int y, BufferedImage image) {
-		this.gp = gp;
+	
+	public Tile() {
+		
+	}
+	public Tile(GamePanel gp, int x, int y, BufferedImage image, boolean collision) {
 		this.x = x;
 		this.y = y;
+		this.gp = gp;
 		tileSize = gp.tileSize;
 		this.image = image;
+		this.collision = collision;
 	}
 	
 	public void draw(Graphics2D g2) {
