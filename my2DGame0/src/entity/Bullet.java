@@ -39,7 +39,7 @@ public class Bullet extends Entity{
 	
 	public void setValues(int x, int y) {
 		
-		speed = 20;
+		speed = 10;
 		
 		this.x = x;
 		this.y = y;
