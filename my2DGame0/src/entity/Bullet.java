@@ -51,6 +51,7 @@ public class Bullet extends Entity{
 		y += vy;
 		
 		if(x < 0 || x > GamePanel.screenWidth||y < 0 || y > screenHeight) {
+			
 			selfDestruct = true;
 		}
 			
