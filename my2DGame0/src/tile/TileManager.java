@@ -26,7 +26,7 @@ public class TileManager {
 	
 	public void getImage() {
 		try {
-			images[1] = new ImageAndCollision(ImageIO.read(getClass().getResourceAsStream("/tiles/testTileRed.png")),true);
+			images[1] = new ImageAndCollision(ImageIO.read(getClass().getResourceAsStream("/tiles/asteroid.png")),true);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
