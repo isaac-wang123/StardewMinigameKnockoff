@@ -29,4 +29,8 @@ public class Tile {
 	public void draw(Graphics2D g2) {
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null);
 	}
+	
+	public String toString() {
+		return "(" + x + ", " + y + ", " + collision + ")";
+	}
 }

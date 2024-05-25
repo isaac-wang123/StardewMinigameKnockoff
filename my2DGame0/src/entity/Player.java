@@ -1,30 +1,27 @@
 package entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import static main.CollisionChecker.checkTile;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import tile.TileManager;
 
 public class Player extends Entity{
 	GamePanel gp;
 	KeyHandler keyH;
 	
-	public Player(GamePanel gp, KeyHandler keyH) {
+	public Player(GamePanel gp, KeyHandler keyH, TileManager tileManager) {
 		this.gp = gp;
 		this.keyH = keyH;
-		
-		solidArea = new Rectangle();
-		solidArea.x = 9;
-		solidArea.y = 6;
-		solidArea.height = 36;
-		solidArea.width = 30;
+		this.tiles = tileManager.getTiles();
+
 		setDefaultValues();
 		getPlayerImage();
+		initHitbox(9,3,30,45);
 	}
 	
 	public void setDefaultValues() {
@@ -55,23 +52,52 @@ public class Player extends Entity{
 	}
 	public void update() {
 		
+		if(keyH.upPressed != true && keyH.downPressed!= true && keyH.leftPressed != true && keyH.rightPressed != true) {
+			return;
+		}
+		
+		int vx = 0, vy = 0;
+		int count = 0;
 		if(keyH.upPressed == true) {
+			count++;
 			direction = "up";
-			y -= speed;
+			if(checkTile(gp, hitbox.x, hitbox.y - speed, hitbox.width, hitbox.height, tiles)) {
+				vy -= speed;
+			}
 		}
 		if(keyH.downPressed == true) {
+			count++;
 			direction = "down";
-			y += speed;
+			if(checkTile(gp, hitbox.x, hitbox.y + speed, hitbox.width, hitbox.height, tiles)) {
+				vy += speed;
+			}
 		}
 
 		if(keyH.leftPressed == true) {
+			count++;
 			direction = "left";
-			x -= speed;
+			if(checkTile(gp, hitbox.x - speed, hitbox.y, hitbox.width, hitbox.height, tiles)) {
+				vx -= speed;
+			}
 		}			
 		if(keyH.rightPressed == true) {
+			count++;
 			direction = "right";
-			x += speed;
+			if(checkTile(gp, hitbox.x + speed, hitbox.y, hitbox.width, hitbox.height, tiles)) {
+				vx += speed;
+			}
 		}
+		
+		if(count>1) {
+			vx = vx * 2 / 3;
+			vy = vy * 2 / 3;
+		}
+		
+		x += vx;
+		y += vy;
+		
+		updateHitbox();
+				
 		spriteCounter++;
 		if(spriteCounter>12) {
 			if(spriteNum ==1) {
@@ -139,6 +165,7 @@ public class Player extends Entity{
 			}
 		}
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null);
+		drawHitbox(g2);
 
 	}
 }

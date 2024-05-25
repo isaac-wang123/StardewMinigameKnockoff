@@ -44,27 +44,22 @@ public class Bullet extends Entity{
 		this.x = x;
 		this.y = y;
 		
-		int count = 0;
 		
 		if(keyH.upArrowPressed==true) {
-			count ++;
 			vy = -speed;
 		} else if(keyH.downArrowPressed==true) {
-			count++;
 			vy = speed;
 		}
 		
 		if (keyH.rightArrowPressed==true) {
-			count++;
 			vx = speed;
 		} else if(keyH.leftArrowPressed==true) {
-			count++;
 			vx = -speed;
 		}
 		
-		if(count>1) {
-			vx/=2;
-			vy/=2;
+		if(vx != 0 && vy != 0) {
+			vx = vx * 2 / 3;
+			vy = vy * 2 / 3;
 		}
 	}
 	

@@ -26,6 +26,7 @@ public class TileManager {
 	
 	public void getImage() {
 		try {
+			images[0] = new ImageAndCollision(ImageIO.read(getClass().getResourceAsStream("/tiles/transparent.png")),false);
 			images[1] = new ImageAndCollision(ImageIO.read(getClass().getResourceAsStream("/tiles/asteroid.png")),true);
 			
 		} catch (IOException e) {
@@ -47,13 +48,11 @@ public class TileManager {
 				while(col < gp.maxScreenCol) {
 					
 					int num = Integer.parseInt(numbers[col]);
-					
-					if(num ==0) {
-						col++;
-						continue;
+					if(row==0&&col==6) {
+						System.out.println(num);
+						System.out.println(images[num].image);
 					}
-					
-					tiles[row][col] = new Tile(gp, row*gp.tileSize, col*gp.tileSize,images[num].image, images[num].collision);
+					tiles[row][col] = new Tile(gp, col*gp.tileSize, row*gp.tileSize, images[num].image, images[num].collision);
 					col++;
 				}
 				if(col == gp.maxScreenCol) {
@@ -70,11 +69,13 @@ public class TileManager {
 	public void draw(Graphics2D g2) {
 		for(Tile[] rows: tiles) {
 			for(Tile tile : rows) {
-				if(tile!=null) {
-					tile.draw(g2);
-				}
+				tile.draw(g2);
 			}
 		}
+	}
+	
+	public Tile[][] getTiles(){
+		return tiles;
 	}
 	
 }
