@@ -6,22 +6,21 @@ import tile.Tile;
 
 public class CollisionChecker {
 	
-	public static boolean checkTile(GamePanel gp, int x, int y, int width, int height, Tile[][] tiles) {	
-		if(!isSolid(x, y, tiles, gp)) {
-			if(!isSolid(x + width, y, tiles, gp)) {
-				if(!isSolid(x, y + height, tiles, gp)) {
-					if(!isSolid(x + width, y + height, tiles, gp)) {
+	public static boolean checkTile(GamePanel gp, int x, int y, int width, int height) {	
+		if(!isSolid(x, y, gp)) {
+			if(!isSolid(x + width, y, gp)) {
+				if(!isSolid(x, y + height, gp)) {
+					if(!isSolid(x + width, y + height, gp)) {
 						return true;
 					}
 				}
 			}
 		}
 		return false;
-		
-	}
+	} 
 	
-	private static boolean isSolid(int x, int y, Tile[][] tiles, GamePanel gp) {
-		
+	private static boolean isSolid(int x, int y, GamePanel gp) {
+		Tile[][] tiles = gp.tiles;
 		if(x < 0 || x >= gp.screenWidth || y < 0 || y >= gp.screenHeight) {
 			return true;
 		}
@@ -30,8 +29,6 @@ public class CollisionChecker {
 		int yIndex = y / gp.tileSize;
 		
 		Tile tile = tiles[yIndex][xIndex];
-		System.out.println(tile);
-		System.out.println(!tile.collision);
 		return tile.collision;
 	}
 }

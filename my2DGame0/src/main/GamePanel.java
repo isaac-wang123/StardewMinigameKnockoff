@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import entity.Player;
 import tile.Background;
+import tile.Tile;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -24,26 +25,21 @@ public class GamePanel extends JPanel implements Runnable{
 	int FPS = 60;	
 	
 	KeyHandler keyH = new KeyHandler();
-	
 	Thread gameThread;
-		
 	BulletManager bulletManager = new BulletManager(this, keyH);
-	
 	TileManager tileManager = new TileManager(this);
-	
 	Background background = new Background(this);
+	Player player = new Player(this,keyH);	
+	AlienManager alienManager = new AlienManager(this);
+	public Tile[][] tiles;
 	
-	Player player = new Player(this,keyH, tileManager);	
-
-	
-	
-		
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
+		tiles = tileManager.getTiles();
 	}
 	 
 	public void startGameThread() {
@@ -71,7 +67,6 @@ public class GamePanel extends JPanel implements Runnable{
 				}
 				
 				Thread.sleep((long)remainingTime);
-				
 				nextDrawTime += drawInterval;
 				
 
@@ -87,25 +82,20 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		
 		background.update();
-		
 		player.update();		
-		
 		bulletManager.update(player);
 	}
 	
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
-		
 		Graphics2D g2 = (Graphics2D)g;
 		
 		background.draw(g2);
-		
 		bulletManager.draw(g2);
-		
 		player.draw(g2);
-		
 		tileManager.draw(g2);
+		alienManager.draw(g2);
 		
 		g2.dispose();
 	}

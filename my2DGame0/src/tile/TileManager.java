@@ -48,10 +48,6 @@ public class TileManager {
 				while(col < gp.maxScreenCol) {
 					
 					int num = Integer.parseInt(numbers[col]);
-					if(row==0&&col==6) {
-						System.out.println(num);
-						System.out.println(images[num].image);
-					}
 					tiles[row][col] = new Tile(gp, col*gp.tileSize, row*gp.tileSize, images[num].image, images[num].collision);
 					col++;
 				}

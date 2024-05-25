@@ -8,16 +8,15 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
-import tile.TileManager;
 
 public class Player extends Entity{
 	GamePanel gp;
 	KeyHandler keyH;
 	
-	public Player(GamePanel gp, KeyHandler keyH, TileManager tileManager) {
+	public Player(GamePanel gp, KeyHandler keyH) {
 		this.gp = gp;
 		this.keyH = keyH;
-		this.tiles = tileManager.getTiles();
+		this.tiles = gp.tiles;
 
 		setDefaultValues();
 		getPlayerImage();
@@ -61,14 +60,14 @@ public class Player extends Entity{
 		if(keyH.upPressed == true) {
 			count++;
 			direction = "up";
-			if(checkTile(gp, hitbox.x, hitbox.y - speed, hitbox.width, hitbox.height, tiles)) {
+			if(checkTile(gp, hitbox.x, hitbox.y - speed, hitbox.width, hitbox.height)) {
 				vy -= speed;
 			}
 		}
 		if(keyH.downPressed == true) {
 			count++;
 			direction = "down";
-			if(checkTile(gp, hitbox.x, hitbox.y + speed, hitbox.width, hitbox.height, tiles)) {
+			if(checkTile(gp, hitbox.x, hitbox.y + speed, hitbox.width, hitbox.height)) {
 				vy += speed;
 			}
 		}
@@ -76,14 +75,14 @@ public class Player extends Entity{
 		if(keyH.leftPressed == true) {
 			count++;
 			direction = "left";
-			if(checkTile(gp, hitbox.x - speed, hitbox.y, hitbox.width, hitbox.height, tiles)) {
+			if(checkTile(gp, hitbox.x - speed, hitbox.y, hitbox.width, hitbox.height)) {
 				vx -= speed;
 			}
 		}			
 		if(keyH.rightPressed == true) {
 			count++;
 			direction = "right";
-			if(checkTile(gp, hitbox.x + speed, hitbox.y, hitbox.width, hitbox.height, tiles)) {
+			if(checkTile(gp, hitbox.x + speed, hitbox.y, hitbox.width, hitbox.height)) {
 				vx += speed;
 			}
 		}
@@ -165,7 +164,6 @@ public class Player extends Entity{
 			}
 		}
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null);
-		drawHitbox(g2);
 
 	}
 }

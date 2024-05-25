@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import main.GamePanel;
 import tile.Tile;
 
 public class Entity {
@@ -12,7 +13,7 @@ public class Entity {
 	 public int speed;
 	 public int vx, vy;
 	 public int xOffset, yOffset;
-	 public BufferedImage up0, up1, up2, down0, down1, down2, left0, left1, left2, right0, right1, right2, bulletImage;
+	 public BufferedImage up0, up1, up2, down0, down1, down2, left0, left1, left2, right0, right1, right2, bulletImage, alienImage;
 	 public String direction;
 	 public boolean left, right, up, down;
 	 public int spriteCounter = 0;
@@ -36,8 +37,5 @@ public class Entity {
 		 g2.setColor(Color.red);
 		 g2.drawRect(hitbox.x,hitbox.y,hitbox.width ,hitbox.height);
 	 }
-	 
-	 public void loadTiles(Tile[][] tiles) {
-		 this.tiles = tiles;
-	 }
+
 }
