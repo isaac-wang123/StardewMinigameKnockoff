@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tile.Background;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -31,6 +32,8 @@ public class GamePanel extends JPanel implements Runnable{
 	BulletManager bulletManager = new BulletManager(this, keyH);
 	
 	TileManager tileManager = new TileManager(this);
+	
+	Background background = new Background(this);
 	
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -80,6 +83,8 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void update() {
 		
+		background.update();
+		
 		player.update();		
 		
 		bulletManager.update(player);
@@ -90,6 +95,8 @@ public class GamePanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D)g;
+		
+		background.draw(g2);
 		
 		bulletManager.draw(g2);
 		
