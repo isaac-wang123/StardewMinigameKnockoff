@@ -54,26 +54,26 @@ public class Alien extends Entity{
 			int angle = findDirection(player);
 			setVelocity(angle);
 		}
-//		if(randomCooldown==0) {
-//			if(gamble()) {
-//				switch((int) Math.random()*4) {
-//					case 0:
-//						vxRandom = 0;
-//						vyRandom = speed;
-//					case 1:
-//						vxRandom = speed;
-//						vyRandom = 0;
-//					case 2:
-//						vxRandom = -speed;
-//						vyRandom = 0;
-//					case 3:
-//						vxRandom = 0;
-//						vyRandom = -speed;
-//				}
-//				vx = vxRandom;
-//				vy = vyRandom;
-//			}
-//		}
+		if(randomCooldown==0) {
+			if(gamble()) {
+				switch((int) Math.random()*4) {
+					case 0:
+						vxRandom = 0;
+						vyRandom = speed;
+					case 1:
+						vxRandom = speed;
+						vyRandom = 0;
+					case 2:
+						vxRandom = -speed;
+						vyRandom = 0;
+					case 3:
+						vxRandom = 0;
+						vyRandom = -speed;
+				}
+				vx = vxRandom;
+				vy = vyRandom;
+			}
+		}
 		
 		if(!checkCollision(hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, aliens)){
 			vx = 0;

@@ -51,9 +51,7 @@ public class Entity {
 			 if(intersecting(entity.hitbox, new Rectangle(x, y, width, height))) {
 				 return false;
 			 }
-//			 if(entity.hitbox.contains(x,y)||entity.hitbox.contains(x+hitbox.width,y)||entity.hitbox.contains(x,y+hitbox.height)||entity.hitbox.contains(x+hitbox.width,y+hitbox.height)) {
-//				 return false;
-//			 }
+
 		 }
 		 return true;
 	 }
