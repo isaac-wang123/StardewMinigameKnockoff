@@ -20,7 +20,7 @@ public class Player extends Entity{
 
 		setDefaultValues();
 		getPlayerImage();
-		initHitbox(9,3,30,45);
+		initHitbox(9,3,29,36);
 	}
 	
 	public void setDefaultValues() {

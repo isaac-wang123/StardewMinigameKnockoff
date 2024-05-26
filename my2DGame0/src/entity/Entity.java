@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import main.GamePanel;
 import tile.Tile;
@@ -37,5 +38,31 @@ public class Entity {
 		 g2.setColor(Color.red);
 		 g2.drawRect(hitbox.x,hitbox.y,hitbox.width ,hitbox.height);
 	 }
-
+	 
+	 public void bounce(Alien alien1, Alien alien2) {
+		 
+	 }
+	 
+	 public boolean checkCollision(int x, int y, int width, int height, ArrayList<Alien> entities) {
+		 for(Alien entity : entities) {
+			 if(entity == this) {
+				 continue;
+			 }
+			 if(intersecting(entity.hitbox, new Rectangle(x, y, width, height))) {
+				 return false;
+			 }
+//			 if(entity.hitbox.contains(x,y)||entity.hitbox.contains(x+hitbox.width,y)||entity.hitbox.contains(x,y+hitbox.height)||entity.hitbox.contains(x+hitbox.width,y+hitbox.height)) {
+//				 return false;
+//			 }
+		 }
+		 return true;
+	 }
+	 
+	 public boolean intersecting (Rectangle r1, Rectangle r2) {
+		 return (inside(r1, r2.x, r2.y) && inside(r1, r2.x + r2.width, r2.y) && inside(r1, r2.x, r2.y + r2.height) && inside(r1, r2.x + r2.width, r2.y + r2.height));
+	 }
+	 
+	 public boolean inside(Rectangle r, int x, int y) {
+		 return(x >= r.x && x <= r.x + r.width && y >= r.y && y <= r.y + r.height);
+	 }
 }

@@ -4,6 +4,7 @@ import static main.CollisionChecker.checkTile;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -15,10 +16,9 @@ public class Bullet extends Entity{
 	KeyHandler keyH;
 	GamePanel gp;
 	public boolean selfDestruct = false;
+
 	
 	public Bullet(GamePanel gp, KeyHandler keyH, int x, int y) {
-		
-		System.out.println("y!");
 		this.gp = gp;
 		this.keyH = keyH;
 		
@@ -43,7 +43,6 @@ public class Bullet extends Entity{
 		this.x = x;
 		this.y = y;
 		
-		
 		if(keyH.upArrowPressed==true) {
 			vy = -speed;
 		} else if(keyH.downArrowPressed==true) {
@@ -62,17 +61,25 @@ public class Bullet extends Entity{
 		}
 	}
 	
-	public void update() {
-		if(!checkTile(gp, hitbox.x + vx, hitbox.y + vy, hitbox.width, hitbox.height)) {
-			selfDestruct = true;
-		} else {
-			x += vx;
-			y += vy;
-		}
-		updateHitbox();
-		
 
+	public void update(ArrayList<Alien> aliens) {
+		x += vx;
+		y += vy;
+		updateHitbox();
+
+		for(Alien alien : aliens) {
+			if(alien.hitbox.contains(hitbox.x,hitbox.y)||alien.hitbox.contains(hitbox.x+hitbox.width,hitbox.y)||alien.hitbox.contains(hitbox.x,hitbox.y+hitbox.height)||alien.hitbox.contains(hitbox.x+hitbox.width,hitbox.y+hitbox.height)) {
+				selfDestruct = true;
+				alien.dead = true;
+				return;
+			}
+		}
 		
+		if(!checkTile(gp, hitbox.x, hitbox.y, hitbox.width, hitbox.height)) {
+			selfDestruct = true;
+			return;
+		}
+
 	}
 	
 	public void draw(Graphics2D g2) {

@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import entity.Alien;
+import entity.Bullet;
 import entity.Player;
 import tile.Background;
 import tile.Tile;
@@ -32,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable{
 	Player player = new Player(this,keyH);	
 	AlienManager alienManager = new AlienManager(this);
 	public Tile[][] tiles;
+	public ArrayList<Bullet> bullets;
+	public ArrayList<Alien> aliens;
 	
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -40,6 +45,8 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
 		tiles = tileManager.getTiles();
+		bullets = bulletManager.bullets;
+		aliens = alienManager.aliens;
 	}
 	 
 	public void startGameThread() {
@@ -80,10 +87,12 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-		
 		background.update();
-		player.update();		
-		bulletManager.update(player);
+		player.update();
+		alienManager.update(player);
+		bulletManager.update(player,alienManager.aliens);
+		alienManager.updateStatus();
+		
 	}
 	
 	public void paintComponent(Graphics g) {

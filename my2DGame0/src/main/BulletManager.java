@@ -3,11 +3,13 @@ package main;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import entity.Alien;
 import entity.Bullet;
+import entity.Entity;
 import entity.Player;
 
 public class BulletManager {
-	ArrayList<Bullet> bullets;
+	public ArrayList<Bullet> bullets;
 	int counter;
 	int fireInterval;
 	
@@ -26,9 +28,9 @@ public class BulletManager {
 		counter = 0;
 	}
 	
-	public void update(Player player) {
+	public void update(Player player, ArrayList<Alien> aliens) {
 		for(int i = 0; i < bullets.size(); i++) {
-			bullets.get(i).update();
+			bullets.get(i).update(aliens);
 			if(bullets.get(i).selfDestruct == true) {
 				bullets.remove(i);
 				i--;
