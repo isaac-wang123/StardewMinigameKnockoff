@@ -15,11 +15,6 @@ public class AlienManager {
 	public AlienManager(GamePanel gp) {
 		this.gp = gp;
 		aliens = new ArrayList<Alien>();
-		aliens.add(new Alien (gp, 200,200));
-		aliens.add(new Alien (gp, 250,200));
-		aliens.add(new Alien (gp, 300,200));
-		aliens.add(new Alien (gp, 350,200));
-
 	}
 	
 	public void updateStatus() {
@@ -43,7 +38,6 @@ public class AlienManager {
 	public void draw(Graphics2D g2) {
 		for(Alien alien : aliens) {
 			alien.draw(g2);
-			System.out.println(alien);
 		}
 	}
 	
@@ -71,5 +65,9 @@ public class AlienManager {
 			aliens.remove(minIndex);
 		}
 		this.aliens = copy;
+	}
+	
+	public void add(Alien alien) {
+		aliens.add(alien);
 	}
 }

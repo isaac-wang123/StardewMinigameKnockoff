@@ -21,6 +21,11 @@ public class Alien extends Entity{
 	int vxRandom;
 	int vyRandom;
 	double angle;
+	int protectedVx;
+	int protectedVy;
+	int protectedTime;
+	int protectedCountdown;
+	
 	public Alien(GamePanel gp, int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -30,7 +35,25 @@ public class Alien extends Entity{
 		randomCounterValue = 60;
 		randomCooldownValue = 240;
 		speed = 2;
-		probability = 400;
+		probability = 600;
+		protectedTime = 90;
+		protectedCountdown = protectedTime;
+		if(x <= 0) {
+			protectedVx = speed;
+			protectedVy = 0;
+		}
+		if(x >= (gp.maxScreenCol - 1) * gp.tileSize) {
+			protectedVx = -speed;
+			protectedVy = 0;
+		}
+		if(y <= 0) {
+			protectedVx = 0;
+			protectedVy = speed;
+		}
+		if(y >= (gp.maxScreenRow - 1) * gp.tileSize) {
+			protectedVx = 0;
+			protectedVy = -speed;
+		}
 	}
 	
 	
@@ -43,38 +66,59 @@ public class Alien extends Entity{
 	}
 	
 	public void update(Player player, ArrayList<Alien> aliens) {
-		if(randomCooldown>0) {
-			randomCooldown--;
-		}
-		if(randomCounter>0) {
-			randomCounter--;
-			vx = vxRandom;
-			vy = vyRandom;
+		if(protectedCountdown > 0) {
+			vx = protectedVx;
+			vy = protectedVy;
+			protectedCountdown--;
 		} else {
-			int angle = findDirection(player);
-			setVelocity(angle);
-		}
-		if(randomCooldown==0) {
-			if(gamble()) {
-				switch((int) Math.random()*4) {
-					case 0:
-						vxRandom = 0;
-						vyRandom = speed;
-					case 1:
-						vxRandom = speed;
-						vyRandom = 0;
-					case 2:
-						vxRandom = -speed;
-						vyRandom = 0;
-					case 3:
-						vxRandom = 0;
-						vyRandom = -speed;
-				}
+			if(randomCooldown>0) {
+				randomCooldown--;
+			}
+			if(randomCounter>0) {
+				randomCounter--;
 				vx = vxRandom;
 				vy = vyRandom;
+			} else {
+				int angle = findDirection(player);
+				setVelocity(angle);
+			}
+			if(randomCooldown==0) {
+				if(gamble()) {
+					int randomNum = (int) (Math.random()*4);
+					switch(randomNum) {
+						case 0:
+							vxRandom = 0;
+							vyRandom = speed;
+							break;
+						case 1:
+							vxRandom = speed;
+							vyRandom = 0;
+							break;
+	
+						case 2:
+							vxRandom = -speed;
+							vyRandom = 0;
+							break;
+	
+						case 3:
+							vxRandom = 0;
+							vyRandom = -speed;
+							break;
+	
+					}
+					vx = vxRandom;
+					vy = vyRandom;
+				}
 			}
 		}
-		
+		if(!checkTile(gp, hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, true)) {
+			vy = vx;
+			vx = 0;
+		}
+		if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
+			vy = vx;
+			vy = 0;
+		}
 		if(!checkCollision(hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, aliens)){
 			vx = 0;
 		} 
@@ -157,7 +201,6 @@ public class Alien extends Entity{
 	
 	public void draw(Graphics2D g2) {
 		g2.drawImage(alienImage, x, y, gp.tileSize,gp.tileSize, null);
-		drawHitbox(g2);
 	}
 	
 	public String toString() {

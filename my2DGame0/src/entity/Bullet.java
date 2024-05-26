@@ -75,7 +75,7 @@ public class Bullet extends Entity{
 			}
 		}
 		
-		if(!checkTile(gp, hitbox.x, hitbox.y, hitbox.width, hitbox.height)) {
+		if(!checkTile(gp, hitbox.x, hitbox.y, hitbox.width, hitbox.height, false)) {
 			selfDestruct = true;
 			return;
 		}

@@ -60,14 +60,14 @@ public class Player extends Entity{
 		if(keyH.upPressed == true) {
 			count++;
 			direction = "up";
-			if(checkTile(gp, hitbox.x, hitbox.y - speed, hitbox.width, hitbox.height)) {
+			if(checkTile(gp, hitbox.x, hitbox.y - speed, hitbox.width, hitbox.height, false)) {
 				vy -= speed;
 			}
 		}
 		if(keyH.downPressed == true) {
 			count++;
 			direction = "down";
-			if(checkTile(gp, hitbox.x, hitbox.y + speed, hitbox.width, hitbox.height)) {
+			if(checkTile(gp, hitbox.x, hitbox.y + speed, hitbox.width, hitbox.height, false)) {
 				vy += speed;
 			}
 		}
@@ -75,14 +75,14 @@ public class Player extends Entity{
 		if(keyH.leftPressed == true) {
 			count++;
 			direction = "left";
-			if(checkTile(gp, hitbox.x - speed, hitbox.y, hitbox.width, hitbox.height)) {
+			if(checkTile(gp, hitbox.x - speed, hitbox.y, hitbox.width, hitbox.height, false)) {
 				vx -= speed;
 			}
 		}			
 		if(keyH.rightPressed == true) {
 			count++;
 			direction = "right";
-			if(checkTile(gp, hitbox.x + speed, hitbox.y, hitbox.width, hitbox.height)) {
+			if(checkTile(gp, hitbox.x + speed, hitbox.y, hitbox.width, hitbox.height, false)) {
 				vx += speed;
 			}
 		}

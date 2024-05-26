@@ -2,12 +2,14 @@ package tile;
 
 import java.awt.image.BufferedImage;
 
-public class ImageAndCollision {
+public class TileData {
 	public BufferedImage image;
 	public boolean collision;
+	public boolean spawn;
 	
-	public ImageAndCollision(BufferedImage image, boolean collision) {
+	public TileData(BufferedImage image, boolean collision, boolean spawn) {
 		this.image = image;
 		this.collision = collision;
+		this.spawn = spawn;
 	}
 }

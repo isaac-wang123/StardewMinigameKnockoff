@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import main.GamePanel;
 
 public class Tile {
-	int x, y;
+	public int x, y;
 	GamePanel gp;
 	int tileSize;
 	
@@ -14,16 +14,19 @@ public class Tile {
 	
 	public boolean collision = false;
 	
+	public boolean spawn;
+	
 	public Tile() {
 		
 	}
-	public Tile(GamePanel gp, int x, int y, BufferedImage image, boolean collision) {
+	public Tile(GamePanel gp, int x, int y, BufferedImage image, boolean collision, boolean spawn) {
 		this.x = x;
 		this.y = y;
 		this.gp = gp;
 		tileSize = gp.tileSize;
 		this.image = image;
 		this.collision = collision;
+		this.spawn = spawn;
 	}
 	
 	public void draw(Graphics2D g2) {

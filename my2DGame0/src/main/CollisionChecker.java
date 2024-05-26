@@ -6,11 +6,11 @@ import tile.Tile;
 
 public class CollisionChecker {
 	
-	public static boolean checkTile(GamePanel gp, int x, int y, int width, int height) {	
-		if(!isSolid(x, y, gp)) {
-			if(!isSolid(x + width, y, gp)) {
-				if(!isSolid(x, y + height, gp)) {
-					if(!isSolid(x + width, y + height, gp)) {
+	public static boolean checkTile(GamePanel gp, int x, int y, int width, int height, boolean alien) {	
+		if(!isSolid(x, y, gp, alien)) {
+			if(!isSolid(x + width, y, gp, alien)) {
+				if(!isSolid(x, y + height, gp, alien)) {
+					if(!isSolid(x + width, y + height, gp, alien)) {
 						return true;
 					}
 				}
@@ -19,15 +19,17 @@ public class CollisionChecker {
 		return false;
 	} 
 	
-	private static boolean isSolid(int x, int y, GamePanel gp) {
+	private static boolean isSolid(int x, int y, GamePanel gp, boolean alien) {
 		Tile[][] tiles = gp.tiles;
-		if(x < 0 || x >= gp.screenWidth || y < 0 || y >= gp.screenHeight) {
+		if(!alien && (x < 0 || x >= gp.screenWidth || y < 0 || y >= gp.screenHeight)) {
 			return true;
 		}
 		
 		int xIndex = x / gp.tileSize;
 		int yIndex = y / gp.tileSize;
-		
+		if(xIndex < 0 || yIndex < 0 || xIndex >= gp.maxScreenCol || yIndex >= gp.maxScreenRow) {
+			return false;
+		}
 		Tile tile = tiles[yIndex][xIndex];
 		return tile.collision;
 	}

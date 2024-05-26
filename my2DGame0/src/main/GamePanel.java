@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable{
 	Background background = new Background(this);
 	Player player = new Player(this,keyH);	
 	AlienManager alienManager = new AlienManager(this);
+	Spawner spawner = new Spawner(this,tileManager.getTiles());
 	public Tile[][] tiles;
 	public ArrayList<Bullet> bullets;
 	public ArrayList<Alien> aliens;
@@ -89,10 +90,10 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		background.update();
 		player.update();
+		spawner.update(alienManager);
 		alienManager.update(player);
 		bulletManager.update(player,alienManager.aliens);
 		alienManager.updateStatus();
-		
 	}
 	
 	public void paintComponent(Graphics g) {

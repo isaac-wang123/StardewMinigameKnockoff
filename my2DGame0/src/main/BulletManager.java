@@ -24,7 +24,7 @@ public class BulletManager {
 		
 		bullets = new ArrayList<Bullet>();
 		
-		fireInterval = 15;
+		fireInterval = 20;
 		counter = 0;
 	}
 	

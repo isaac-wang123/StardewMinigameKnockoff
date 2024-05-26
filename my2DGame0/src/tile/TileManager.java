@@ -14,20 +14,22 @@ import main.GamePanel;
 public class TileManager {
 	Tile[][] tiles;
 	GamePanel gp;
-	ImageAndCollision[] images;
+	TileData[] images;
 	
 	public TileManager(GamePanel gp) {
 		this.gp = gp;
 		tiles = new Tile[gp.maxScreenCol][gp.maxScreenRow];
-		images = new ImageAndCollision[10];
+		images = new TileData[10];
 		getImage();
 		loadMap();
 	}
 	
 	public void getImage() {
 		try {
-			images[0] = new ImageAndCollision(ImageIO.read(getClass().getResourceAsStream("/tiles/transparent.png")),false);
-			images[1] = new ImageAndCollision(ImageIO.read(getClass().getResourceAsStream("/tiles/asteroid.png")),true);
+			images[0] = new TileData(ImageIO.read(getClass().getResourceAsStream("/tiles/transparent.png")),false, false);
+			images[1] = new TileData(ImageIO.read(getClass().getResourceAsStream("/tiles/asteroid.png")),true, false);
+			images[2] = new TileData(ImageIO.read(getClass().getResourceAsStream("/tiles/transparent.png")),false, true);
+
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -48,7 +50,7 @@ public class TileManager {
 				while(col < gp.maxScreenCol) {
 					
 					int num = Integer.parseInt(numbers[col]);
-					tiles[row][col] = new Tile(gp, col*gp.tileSize, row*gp.tileSize, images[num].image, images[num].collision);
+					tiles[row][col] = new Tile(gp, col*gp.tileSize, row*gp.tileSize, images[num].image, images[num].collision, images[num].spawn);
 					col++;
 				}
 				if(col == gp.maxScreenCol) {
