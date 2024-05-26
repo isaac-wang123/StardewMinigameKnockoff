@@ -59,7 +59,7 @@ public class Entity {
 	 }
 	 
 	 public boolean intersecting (Rectangle r1, Rectangle r2) {
-		 return (inside(r1, r2.x, r2.y) && inside(r1, r2.x + r2.width, r2.y) && inside(r1, r2.x, r2.y + r2.height) && inside(r1, r2.x + r2.width, r2.y + r2.height));
+		 return (inside(r1, r2.x, r2.y) || inside(r1, r2.x + r2.width, r2.y) || inside(r1, r2.x, r2.y + r2.height) || inside(r1, r2.x + r2.width, r2.y + r2.height));
 	 }
 	 
 	 public boolean inside(Rectangle r, int x, int y) {
