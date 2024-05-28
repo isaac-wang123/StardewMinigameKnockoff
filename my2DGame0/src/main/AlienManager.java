@@ -4,11 +4,9 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import entity.Alien;
-import entity.Player;
 
 public class AlienManager {
 	GamePanel gp;
-	Player player;
 	Alien alien;
 	public ArrayList<Alien> aliens;
 	
@@ -26,11 +24,10 @@ public class AlienManager {
 		}
 	}
 	
-	public void update(Player player) {
-		this.player = player;
+	public void update() {
 		jankSort(aliens);
 		for(Alien alien : aliens) {
-			alien.update(player, aliens);
+			alien.update();
 		}
 	}
 
@@ -51,7 +48,7 @@ public class AlienManager {
 			int minIndex = 0;
 			
 			for(int j = 0; j < aliens.size(); j++) {
-				int distance = (int) Math.sqrt(Math.pow((player.hitbox.x + player.hitbox.width -aliens.get(j).hitbox.x - aliens.get(j).hitbox.width), 2) + Math.pow((player.hitbox.y + player.hitbox.height - aliens.get(j).hitbox.y - aliens.get(j).hitbox.width), 2));
+				int distance = (int) Math.sqrt(Math.pow((gp.player.hitbox.x + gp.player.hitbox.width -aliens.get(j).hitbox.x - aliens.get(j).hitbox.width), 2) + Math.pow((gp.player.hitbox.y + gp.player.hitbox.height - aliens.get(j).hitbox.y - aliens.get(j).hitbox.width), 2));
 				if(min ==0) {
 					min = distance;
 					minIndex = j;

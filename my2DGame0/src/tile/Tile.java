@@ -16,9 +16,6 @@ public class Tile {
 	
 	public boolean spawn;
 	
-	public Tile() {
-		
-	}
 	public Tile(GamePanel gp, int x, int y, BufferedImage image, boolean collision, boolean spawn) {
 		this.x = x;
 		this.y = y;

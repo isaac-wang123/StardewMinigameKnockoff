@@ -13,33 +13,28 @@ public class BulletManager {
 	int counter;
 	int fireInterval;
 	
-	KeyHandler keyH;
 	GamePanel gp;
-	Player player;
 	
 	
-	public BulletManager(GamePanel gp, KeyHandler keyH) {
+	public BulletManager(GamePanel gp) {
 		this.gp = gp;
-		this.keyH = keyH;
-		
 		bullets = new ArrayList<Bullet>();
-		
 		fireInterval = 20;
 		counter = 0;
 	}
 	
-	public void update(Player player, ArrayList<Alien> aliens) {
+	public void update() {
 		for(int i = 0; i < bullets.size(); i++) {
-			bullets.get(i).update(aliens);
+			bullets.get(i).update(gp.alienManager.aliens);
 			if(bullets.get(i).selfDestruct == true) {
 				bullets.remove(i);
 				i--;
 			}
 		}
 		
-		if(keyH.downArrowPressed==true||keyH.upArrowPressed==true||keyH.leftArrowPressed==true||keyH.rightArrowPressed==true){
+		if(gp.keyH.downArrowPressed==true||gp.keyH.upArrowPressed==true||gp.keyH.leftArrowPressed==true||gp.keyH.rightArrowPressed==true){
 			if(counter == 0) {			
-				bullets.add(new Bullet(gp, keyH, player.x, player.y));
+				bullets.add(new Bullet(gp, gp.player.x, gp.player.y));
 				counter += fireInterval + 1;
 			}
 		}	

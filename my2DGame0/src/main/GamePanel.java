@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import ai.PathFinder;
 import entity.Alien;
 import entity.Bullet;
 import entity.Player;
@@ -27,17 +28,25 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	int FPS = 60;	
 	
-	KeyHandler keyH = new KeyHandler();
+	public KeyHandler keyH = new KeyHandler(this);
 	Thread gameThread;
-	BulletManager bulletManager = new BulletManager(this, keyH);
-	TileManager tileManager = new TileManager(this);
-	Background background = new Background(this);
-	Player player = new Player(this,keyH);	
-	AlienManager alienManager = new AlienManager(this);
-	Spawner spawner = new Spawner(this,tileManager.getTiles());
+	public BulletManager bulletManager = new BulletManager(this);
+	public TileManager tileManager = new TileManager(this);
+	public Background background = new Background(this);
+	public Player player = new Player(this);	
+	public AlienManager alienManager = new AlienManager(this);
+	public UI ui = new UI(this);
+	Spawner spawner = new Spawner(this);
+	public PathFinder pFinder = new PathFinder(this);
 	public Tile[][] tiles;
 	public ArrayList<Bullet> bullets;
 	public ArrayList<Alien> aliens;
+	
+	public int gameState;
+	public final int titleState = 0;
+	public final int playState = 1;
+	public final int pauseState = 2;
+	public final int deathState = 3;
 	
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -45,16 +54,14 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
-		tiles = tileManager.getTiles();
-		bullets = bulletManager.bullets;
-		aliens = alienManager.aliens;
+		gameState = titleState;
 	}
 	 
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
-	@Override
+	
 	public void run() {
 			
 		double drawInterval = 1000000000/FPS;
@@ -88,24 +95,37 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-		background.update();
-		player.update();
-		spawner.update(alienManager);
-		alienManager.update(player);
-		bulletManager.update(player,alienManager.aliens);
-		alienManager.updateStatus();
+		
+		if(gameState == playState) {
+			background.update();
+			player.update();
+			spawner.update();
+			alienManager.update();
+			bulletManager.update();
+			alienManager.updateStatus();
+		}
+		
+		if(gameState == pauseState) {
+			
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
-		background.draw(g2);
-		bulletManager.draw(g2);
-		player.draw(g2);
-		tileManager.draw(g2);
-		alienManager.draw(g2);
+		if(gameState == titleState) {
+			ui.draw(g2);
+		} else {
+			background.draw(g2);
+			bulletManager.draw(g2);
+			player.draw(g2);
+			tileManager.draw(g2);
+			alienManager.draw(g2);
+			ui.draw(g2);
+		}
+		
+
 		
 		g2.dispose();
 	}

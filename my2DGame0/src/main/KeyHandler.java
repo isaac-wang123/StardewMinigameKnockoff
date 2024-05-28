@@ -5,16 +5,18 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener{
 	
-	public boolean upPressed, downPressed, leftPressed, rightPressed, upArrowPressed, downArrowPressed, leftArrowPressed, rightArrowPressed;
-	@Override
+	GamePanel gp;
+	public boolean upPressed, downPressed, leftPressed, rightPressed, upArrowPressed, downArrowPressed, leftArrowPressed, rightArrowPressed, escapePressed;
+	
+	public KeyHandler(GamePanel gp) {
+		this.gp = gp;
+	}
+	
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		int code = e.getKeyCode();
 		
 		if(code == KeyEvent.VK_W) {
@@ -48,11 +50,18 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_RIGHT) {
 			rightArrowPressed = true;
 		}
+		
+		if(code == KeyEvent.VK_ESCAPE) {
+			escapePressed = true;
+			if(gp.gameState == gp.playState) {
+				gp.gameState = gp.pauseState;
+			} else if (gp.gameState == gp.pauseState) {
+				gp.gameState = gp.playState;
+			}
+		}
 	}
 
-	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		int code = e.getKeyCode();
 		 
 		if(code == KeyEvent.VK_W) {

@@ -1,6 +1,7 @@
 package entity;
 
 import static main.CollisionChecker.checkTile;
+import static main.CollisionChecker.radiusChecker;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
@@ -11,7 +12,6 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 
 public class Alien extends Entity{
-	GamePanel gp;
 	public boolean dead = false;
 	int probability;
 	int randomCounterValue;
@@ -25,11 +25,13 @@ public class Alien extends Entity{
 	int protectedVy;
 	int protectedTime;
 	int protectedCountdown;
+	double xDistance;
+	double yDistance;
 	
 	public Alien(GamePanel gp, int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.gp = gp;
+		super.setGp(gp);
 		loadImage();
 		initHitbox(9,0,33,45);
 		randomCounterValue = 60;
@@ -65,7 +67,9 @@ public class Alien extends Entity{
 		}
 	}
 	
-	public void update(Player player, ArrayList<Alien> aliens) {
+	public void update() {
+		boolean checked = false;
+
 		if(protectedCountdown > 0) {
 			vx = protectedVx;
 			vy = protectedVy;
@@ -78,51 +82,57 @@ public class Alien extends Entity{
 				randomCounter--;
 				vx = vxRandom;
 				vy = vyRandom;
+				
+				if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)||!checkTile(gp, hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, true)) {
+					vx = 0;
+					vy = 0;
+				}
+				
 			} else {
-				int angle = findDirection(player);
-				setVelocity(angle);
-			}
-			if(randomCooldown==0) {
-				if(gamble()) {
-					int randomNum = (int) (Math.random()*4);
-					switch(randomNum) {
-						case 0:
-							vxRandom = 0;
-							vyRandom = speed;
-							break;
-						case 1:
-							vxRandom = speed;
-							vyRandom = 0;
-							break;
-	
-						case 2:
-							vxRandom = -speed;
-							vyRandom = 0;
-							break;
-	
-						case 3:
-							vxRandom = 0;
-							vyRandom = -speed;
-							break;
-	
+				if(radiusChecker(gp, hitbox)){
+					int playerCol = (gp.player.hitbox.x) / gp.tileSize;
+					int playerRow = (gp.player.hitbox.y) / gp.tileSize; 
+					if(x > 0 && y > 0) {
+						searchPath(playerRow, playerCol);
 					}
-					vx = vxRandom;
-					vy = vyRandom;
+				} else {
+					int angle = findDirection();
+					setVelocity(angle);
+					
+					if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
+						vy = 0;
+					}
+					
+					if(!checkTile(gp, hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, true)) {
+						vx = 0;
+					}
+					checked = true;
 				}
 			}
 		}
-		if(!checkTile(gp, hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, true)) {
-			vy = vx;
-			vx = 0;
-		}
-		if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
-			vy = vx;
-			vy = 0;
-		}
-		if(!checkCollision(hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, aliens)){
+	
+		if(!checkCollision(hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, gp.alienManager.aliens)){
 			vx = 0;
 		} 
-		if(!checkCollision(hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, aliens)){
+		if(!checkCollision(hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, gp.alienManager.aliens)){
+			vy = 0;
+		} 
+		
+		if(vx == 0 && vy == 0 && !checked) {
+			int angle = findDirection();
+			setVelocity(angle);
+			if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
+				vy = 0;
+			}
+			if(!checkTile(gp, hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, true)) {
+				vx = 0;
+			}
+		}
+		
+		if(!checkCollision(hitbox.x + vx, hitbox.y, hitbox.width, hitbox.height, gp.alienManager.aliens)){
+			vx = 0;
+		} 
+		if(!checkCollision(hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, gp.alienManager.aliens)){
 			vy = 0;
 		} 
 		
@@ -131,6 +141,7 @@ public class Alien extends Entity{
 		
 		updateHitbox();
 	}
+	
 	
 	public void setVelocity(int angle) {
 		switch(angle) {
@@ -169,9 +180,9 @@ public class Alien extends Entity{
 		}
 	}
 	
-	public int findDirection(Player player) {
-		double xDistance = (double) x - player.x;
-		double yDistance = (double) - y + player.y;
+	public int findDirection() {
+		xDistance = (double) x - gp.player.x;
+		yDistance = (double) - y + gp.player.y;
 		if(xDistance == 0) {
 			xDistance = 1;
 		}
@@ -182,7 +193,7 @@ public class Alien extends Entity{
 			angle  = angle + 360;
 		}
 		angle += 22.5;
-		angle = (int) angle /45 * 45;
+		angle = (int) angle / 45 * 45;
 		if(angle == 360) {
 			angle = 0;
 		}

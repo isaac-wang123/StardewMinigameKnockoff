@@ -12,15 +12,13 @@ import tile.Tile;
 public class Spawner {
 	GamePanel gp;
 	int time;
-	Tile[][] tiles;
 	ArrayList<Tile> spawnTiles;
 	int[][] spawns;
 	int spawnInterval;
 	int maxRows;
 	
-	public Spawner(GamePanel gp, Tile[][] tiles) {
+	public Spawner(GamePanel gp) {
 		this.gp = gp;
-		this.tiles = tiles;
 		time = 0;
 		spawnInterval = 60;
 		maxRows = 120;
@@ -28,16 +26,10 @@ public class Spawner {
 		loadSpawnLocations();
 		spawns = new int[maxRows][spawnTiles.size()];
 		loadSpawnPattern();
-		for(int[] j : spawns) {
-			for(int i : j) {
-				System.out.print(i);
-			}
-			System.out.println("");
-		}
 	}
 	
 	public void loadSpawnLocations() {
-		for(Tile[] t : tiles) {
+		for(Tile[] t : gp.tileManager.tiles) {
 			for(Tile tile : t) {
 				if(tile.spawn) {
 					spawnTiles.add(tile);
@@ -76,7 +68,7 @@ public class Spawner {
 		}
 	}
 	
-	public void update(AlienManager am) {
+	public void update() {
 		if(time % spawnInterval == 0 && time < spawnInterval * maxRows) {
 			int[] currentRow = spawns[time / spawnInterval];
 			for(int i = 0; i < currentRow.length; i++) {
@@ -99,7 +91,7 @@ public class Spawner {
 						tileX += gp.tileSize;
 					}
 
-					am.add(new Alien(gp, tileX, tileY));
+					gp.alienManager.aliens.add(new Alien(gp, tileX, tileY));
 				}
 			}
 

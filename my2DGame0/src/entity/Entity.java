@@ -1,5 +1,7 @@
 package entity;
 
+import static main.CollisionChecker.checkTile;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -22,6 +24,8 @@ public class Entity {
 	 public Rectangle hitbox;
 	 public boolean collisionOn = false;
 	 public Tile[][] tiles;
+	 GamePanel gp;
+	 
 	 
 	 public void initHitbox(int xOffset, int yOffset, int width, int height) {
 		 this.xOffset = xOffset;
@@ -39,8 +43,8 @@ public class Entity {
 		 g2.drawRect(hitbox.x,hitbox.y,hitbox.width ,hitbox.height);
 	 }
 	 
-	 public void bounce(Alien alien1, Alien alien2) {
-		 
+	 public void setGp(GamePanel gp) {
+		 this.gp = gp;
 	 }
 	 
 	 public boolean checkCollision(int x, int y, int width, int height, ArrayList<Alien> entities) {
@@ -62,5 +66,69 @@ public class Entity {
 	 
 	 public boolean inside(Rectangle r, int x, int y) {
 		 return(x >= r.x && x <= r.x + r.width && y >= r.y && y <= r.y + r.height);
+	 }
+	 
+	 public void searchPath(int goalRow, int goalCol) {
+		 
+		 int startCol = (hitbox.x) / gp.tileSize;
+		 int startRow = (hitbox.y) / gp.tileSize;
+		 gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
+		 if(gp.pFinder.search()) {
+			 int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
+			 int nextY = gp.pFinder.pathList.get(0).row * gp.tileSize;
+			 
+			 int leftX = hitbox.x;
+			 int topY =  hitbox.y;
+			 int rightX = hitbox.x + hitbox.width;
+			 int bottomY = hitbox.y + hitbox.height;
+			 
+			 if(topY > nextY && leftX >= nextX && rightX < nextX + gp.tileSize) {
+				 vx = 0;
+				 vy = -speed;
+			 } else if(topY < nextY && leftX >= nextX && rightX < nextX + gp.tileSize) {
+				 vy = speed;
+				 vx = 0;
+			 } else if(topY >= nextY && bottomY < nextY + gp.tileSize) {
+				 if(leftX > nextX) {
+					 vx = -speed;
+					 vy = 0;
+				 }
+				 if(leftX < nextX) {
+					 vx = speed;
+					 vy = 0;
+				 }
+			 } else if(topY > nextY && leftX > nextX) {
+				  vy = -speed;
+				  vx = 0;
+				  if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
+					  vy = 0;
+					  vx = -speed;
+				  }
+			 } else if(topY > nextY && leftX < nextX) {
+				  vy = -speed;
+				  vx = 0;
+				  if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
+					  vy = 0;
+					  vx = speed;
+				  }
+			 } else if(topY < nextY && leftX > nextX) {
+				  vy = speed;
+				  vx = 0;
+				  if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
+					  vy = 0;
+					  vx = -speed;
+				  }
+			 } else if(topY < nextY && leftX < nextX) {
+				  vy = -speed;
+				  vx = 0;
+				  if(!checkTile(gp, hitbox.x, hitbox.y + vy, hitbox.width, hitbox.height, true)) {
+					  vy = 0;
+					  vx = speed;
+				  }
+			 }
+			 
+		 }
+		 
+	
 	 }
 }

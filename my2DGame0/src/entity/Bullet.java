@@ -13,14 +13,12 @@ import main.KeyHandler;
 
 public class Bullet extends Entity{
 	
-	KeyHandler keyH;
 	GamePanel gp;
 	public boolean selfDestruct = false;
 
 	
-	public Bullet(GamePanel gp, KeyHandler keyH, int x, int y) {
+	public Bullet(GamePanel gp, int x, int y) {
 		this.gp = gp;
-		this.keyH = keyH;
 		
 		getBulletImage();
 		
@@ -43,15 +41,15 @@ public class Bullet extends Entity{
 		this.x = x;
 		this.y = y;
 		
-		if(keyH.upArrowPressed==true) {
+		if(gp.keyH.upArrowPressed==true) {
 			vy = -speed;
-		} else if(keyH.downArrowPressed==true) {
+		} else if(gp.keyH.downArrowPressed==true) {
 			vy = speed;
 		}
 		
-		if (keyH.rightArrowPressed==true) {
+		if(gp.keyH.rightArrowPressed==true) {
 			vx = speed;
-		} else if(keyH.leftArrowPressed==true) {
+		} else if(gp.keyH.leftArrowPressed==true) {
 			vx = -speed;
 		}
 		

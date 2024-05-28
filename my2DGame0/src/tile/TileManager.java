@@ -1,5 +1,6 @@
 package tile;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -12,9 +13,10 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 
 public class TileManager {
-	Tile[][] tiles;
+	public Tile[][] tiles;
 	GamePanel gp;
 	TileData[] images;
+	boolean drawPath = false;
 	
 	public TileManager(GamePanel gp) {
 		this.gp = gp;
@@ -38,7 +40,7 @@ public class TileManager {
 	
 	public void loadMap() {
 		try {
-			InputStream is = getClass().getResourceAsStream("/maps/map1.txt");
+			InputStream is = getClass().getResourceAsStream("/maps/map02.txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			
 			int col = 0;
@@ -70,10 +72,15 @@ public class TileManager {
 				tile.draw(g2);
 			}
 		}
+		
+		if(drawPath) {
+			g2.setColor(Color.red);
+			for(int i = 0 ; i < gp.pFinder.pathList.size(); i++) {
+				int x = gp.pFinder.pathList.get(i).col * gp.tileSize;
+				int y = gp.pFinder.pathList.get(i).row * gp.tileSize;
+				g2.drawRect(x,  y,  gp.tileSize,  gp.tileSize);
+			}
+
+		}
 	}
-	
-	public Tile[][] getTiles(){
-		return tiles;
-	}
-	
 }

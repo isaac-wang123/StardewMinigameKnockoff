@@ -11,11 +11,9 @@ import main.KeyHandler;
 
 public class Player extends Entity{
 	GamePanel gp;
-	KeyHandler keyH;
 	
-	public Player(GamePanel gp, KeyHandler keyH) {
+	public Player(GamePanel gp) {
 		this.gp = gp;
-		this.keyH = keyH;
 		this.tiles = gp.tiles;
 
 		setDefaultValues();
@@ -24,8 +22,8 @@ public class Player extends Entity{
 	}
 	
 	public void setDefaultValues() {
-		x = 100;
-		y = 100;
+		x = gp.screenWidth/2;
+		y = gp.screenHeight/2;
 		speed = 3;
 		direction = "down";
 	}
@@ -51,20 +49,20 @@ public class Player extends Entity{
 	}
 	public void update() {
 		
-		if(keyH.upPressed != true && keyH.downPressed!= true && keyH.leftPressed != true && keyH.rightPressed != true) {
+		if(gp.keyH.upPressed != true && gp.keyH.downPressed!= true && gp.keyH.leftPressed != true && gp.keyH.rightPressed != true) {
 			return;
 		}
 		
 		int vx = 0, vy = 0;
 		int count = 0;
-		if(keyH.upPressed == true) {
+		if(gp.keyH.upPressed == true) {
 			count++;
 			direction = "up";
 			if(checkTile(gp, hitbox.x, hitbox.y - speed, hitbox.width, hitbox.height, false)) {
 				vy -= speed;
 			}
 		}
-		if(keyH.downPressed == true) {
+		if(gp.keyH.downPressed == true) {
 			count++;
 			direction = "down";
 			if(checkTile(gp, hitbox.x, hitbox.y + speed, hitbox.width, hitbox.height, false)) {
@@ -72,14 +70,14 @@ public class Player extends Entity{
 			}
 		}
 
-		if(keyH.leftPressed == true) {
+		if(gp.keyH.leftPressed == true) {
 			count++;
 			direction = "left";
 			if(checkTile(gp, hitbox.x - speed, hitbox.y, hitbox.width, hitbox.height, false)) {
 				vx -= speed;
 			}
 		}			
-		if(keyH.rightPressed == true) {
+		if(gp.keyH.rightPressed == true) {
 			count++;
 			direction = "right";
 			if(checkTile(gp, hitbox.x + speed, hitbox.y, hitbox.width, hitbox.height, false)) {
@@ -94,7 +92,6 @@ public class Player extends Entity{
 		
 		x += vx;
 		y += vy;
-		
 		updateHitbox();
 				
 		spriteCounter++;
@@ -112,7 +109,7 @@ public class Player extends Entity{
 	public void draw(Graphics2D g2) {
 		
 		BufferedImage image = null;
-		if(keyH.upPressed == true||keyH.downPressed == true||keyH.leftPressed == true||keyH.rightPressed == true) {
+		if(gp.keyH.upPressed == true||gp.keyH.downPressed == true||gp.keyH.leftPressed == true||gp.keyH.rightPressed == true) {
 			switch(direction) {
 			case "up":
 				if(spriteNum == 1) {
@@ -163,6 +160,7 @@ public class Player extends Entity{
 				break;
 			}
 		}
+		
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null);
 
 	}
