@@ -96,7 +96,6 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-		System.out.println(gameState);
 		if(gameState == titleState) {
 			if(!reset) {
 				alienManager.reset();

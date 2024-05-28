@@ -30,9 +30,7 @@ public class TileManager {
 		try {
 			images[0] = new TileData(ImageIO.read(getClass().getResourceAsStream("/tiles/transparent.png")),false, false);
 			images[1] = new TileData(ImageIO.read(getClass().getResourceAsStream("/tiles/asteroid.png")),true, false);
-			images[2] = new TileData(ImageIO.read(getClass().getResourceAsStream("/tiles/transparent.png")),false, true);
-
-			
+			images[2] = new TileData(ImageIO.read(getClass().getResourceAsStream("/tiles/transparent.png")),false, true);			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +70,7 @@ public class TileManager {
 				tile.draw(g2);
 			}
 		}
-		
+
 		if(drawPath) {
 			g2.setColor(Color.red);
 			for(int i = 0 ; i < gp.pFinder.pathList.size(); i++) {
