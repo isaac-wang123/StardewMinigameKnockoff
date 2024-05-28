@@ -97,6 +97,9 @@ public class Spawner {
 
 		}
 		time ++;
-		
+	}
+	
+	public void reset() {
+		time = 0;
 	}
 }

@@ -138,8 +138,11 @@ public class Alien extends Entity{
 		
 		x += vx;
 		y += vy;
-		
 		updateHitbox();
+		
+		if(intersecting(hitbox, gp.player.hitbox)){
+			gp.gameState = gp.titleState;
+		}
 	}
 	
 	

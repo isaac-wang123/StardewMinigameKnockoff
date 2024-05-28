@@ -51,4 +51,9 @@ public class BulletManager {
 		}
 	}
 	
+	public void reset() {
+		bullets.clear();
+		counter = 0;
+	}
+	
 }

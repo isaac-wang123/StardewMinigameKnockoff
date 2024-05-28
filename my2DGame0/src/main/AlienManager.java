@@ -67,4 +67,8 @@ public class AlienManager {
 	public void add(Alien alien) {
 		aliens.add(alien);
 	}
+	
+	public void reset() {
+		aliens.clear();
+	}
 }

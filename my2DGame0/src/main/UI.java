@@ -37,7 +37,7 @@ public class UI {
 	
 	public void loadImage() {
 		try {
-			title = ImageIO.read(getClass().getResourceAsStream("/screens/titlev4.png"));
+			title = ImageIO.read(getClass().getResourceAsStream("/screens/titlev5.png"));
 			mario = ImageIO.read(getClass().getResourceAsStream("/player/front-1.png"));
 
 		} catch (IOException e) {
@@ -102,6 +102,9 @@ public class UI {
 		x = getCenterX(text);
 		y += gp.tileSize * 1.5;
 		g2.drawString(text, x, y);
+		if(commandNum == 1) {
+			g2.drawString(">", x - gp.tileSize, y);
+		}
 		
 
 	}

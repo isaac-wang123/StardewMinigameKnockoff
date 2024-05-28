@@ -22,8 +22,8 @@ public class Player extends Entity{
 	}
 	
 	public void setDefaultValues() {
-		x = gp.screenWidth/2;
-		y = gp.screenHeight/2;
+		x = gp.screenWidth/2 - gp.tileSize/2;
+		y = gp.screenHeight/2 - gp.tileSize/2;
 		speed = 3;
 		direction = "down";
 	}
@@ -163,5 +163,14 @@ public class Player extends Entity{
 		
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null);
 
+	}
+	
+	public void reset() {
+		x = gp.screenWidth/2 - gp.tileSize/2;
+		y = gp.screenHeight/2 - gp.tileSize/2;
+		direction = "down";
+		vx = 0;
+		vy = 0;
+		updateHitbox();
 	}
 }

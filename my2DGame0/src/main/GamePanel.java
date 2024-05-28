@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public Tile[][] tiles;
 	public ArrayList<Bullet> bullets;
 	public ArrayList<Alien> aliens;
+	public boolean reset = false;
 	
 	public int gameState;
 	public final int titleState = 0;
@@ -95,7 +96,16 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-		
+		if(gameState == titleState) {
+			if(!reset) {
+				alienManager.reset();
+				player.reset();
+				bulletManager.reset();
+				spawner.reset();
+				keyH.reset();
+			}
+			reset = true;
+		}
 		if(gameState == playState) {
 			background.update();
 			player.update();
@@ -103,6 +113,7 @@ public class GamePanel extends JPanel implements Runnable{
 			alienManager.update();
 			bulletManager.update();
 			alienManager.updateStatus();
+			reset = false;
 		}
 		
 		if(gameState == pauseState) {
