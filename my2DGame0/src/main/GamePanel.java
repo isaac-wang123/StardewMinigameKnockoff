@@ -96,6 +96,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
+		System.out.println(gameState);
 		if(gameState == titleState) {
 			if(!reset) {
 				alienManager.reset();
@@ -126,18 +127,16 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D)g;
 		
 		if(gameState == titleState) {
-			ui.draw(g2);
+
 		} else {
 			background.draw(g2);
 			bulletManager.draw(g2);
 			player.draw(g2);
 			tileManager.draw(g2);
 			alienManager.draw(g2);
-			ui.draw(g2);
 		}
 		
-
-		
+		ui.draw(g2);
 		g2.dispose();
 	}
 	
