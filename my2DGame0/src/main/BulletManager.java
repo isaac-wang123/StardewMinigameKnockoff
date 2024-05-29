@@ -26,7 +26,7 @@ public class BulletManager {
 	public void update() {
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).update(gp.alienManager.aliens);
-			if(bullets.get(i).selfDestruct == true) {
+			if(bullets.get(i).selfDestruct == true || (bullets.get(i).vx == 0 && bullets.get(i).vy == 0)) {
 				bullets.remove(i);
 				i--;
 			}

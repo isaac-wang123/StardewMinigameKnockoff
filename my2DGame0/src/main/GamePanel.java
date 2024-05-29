@@ -36,12 +36,15 @@ public class GamePanel extends JPanel implements Runnable{
 	public Player player = new Player(this);	
 	public AlienManager alienManager = new AlienManager(this);
 	public UI ui = new UI(this);
-	Spawner spawner = new Spawner(this);
+	public Spawner spawner = new Spawner(this);
 	public PathFinder pFinder = new PathFinder(this);
 	public Tile[][] tiles;
 	public ArrayList<Bullet> bullets;
 	public ArrayList<Alien> aliens;
 	public boolean reset = false;
+	public int maxWave = 0;
+	public SaveData sd = new SaveData(this);
+	
 	
 	public int gameState;
 	public final int titleState = 0;
@@ -56,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
 		gameState = titleState;
+		sd.load();
 	}
 	 
 	public void startGameThread() {
@@ -64,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void run() {
-			
+		
 		double drawInterval = 1000000000/FPS;
 		double nextDrawTime = System.nanoTime() + drawInterval;
 		
@@ -97,24 +101,30 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void update() {
 		if(gameState == titleState) {
+			reset = false;
+		}
+		
+		if(gameState == deathState) {
+			reset = false;
+		}
+		
+		if(gameState == playState) {
 			if(!reset) {
 				alienManager.reset();
 				player.reset();
 				bulletManager.reset();
 				spawner.reset();
 				keyH.reset();
+				reset = true;
 			}
-			reset = true;
-		}
-		if(gameState == playState) {
 			background.update();
 			player.update();
 			spawner.update();
 			alienManager.update();
 			bulletManager.update();
 			alienManager.updateStatus();
-			reset = false;
 		}
+		
 		
 		if(gameState == pauseState) {
 			
@@ -138,6 +148,7 @@ public class GamePanel extends JPanel implements Runnable{
 		ui.draw(g2);
 		g2.dispose();
 	}
+	
 	
 	
 }

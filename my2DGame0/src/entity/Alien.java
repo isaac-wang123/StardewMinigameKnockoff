@@ -141,7 +141,7 @@ public class Alien extends Entity{
 		updateHitbox();
 		
 		if(intersecting(hitbox, gp.player.hitbox)){
-			gp.gameState = gp.titleState;
+			gp.gameState = gp.deathState;
 		}
 	}
 	

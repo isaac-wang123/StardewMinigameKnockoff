@@ -58,6 +58,8 @@ public class TileManager {
 					row++;
 				}
 			}
+			
+			br.close();
 				
 		} catch (IOException e) {
 			e.printStackTrace();

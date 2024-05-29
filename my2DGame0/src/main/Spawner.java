@@ -24,6 +24,9 @@ public class Spawner {
 	int spawnMax;
 	int spawned;
 	int probability;
+	boolean spawn;
+	public long start;
+	public double timeElapsed;
 	
 	public Spawner(GamePanel gp) {
 		this.gp = gp;
@@ -32,12 +35,11 @@ public class Spawner {
 		loadSpawnLocations();
 		maxRows = 120;
 		spawns = new int[maxRows][spawnTiles.size()];
-		System.out.println(spawns.length);
 		spawnInterval = 60;
-
+		
 		if(infinite) {
 			wave = 0;
-			waveCooldown = 240;
+			waveCooldown = 300;
 			cooldownCounter = 0;
 			spawned = 0;
 			spawnMax = 0;
@@ -81,6 +83,8 @@ public class Spawner {
 					row++;
 				}
 			}
+			
+			br.close();
 				
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -88,6 +92,7 @@ public class Spawner {
 	}
 	
 	public void update() {
+		updateTime();
 		if(infinite) {
 			updateInfinite();
 		} else {
@@ -95,23 +100,26 @@ public class Spawner {
 		}
 	}
 	
+	public void updateTime() {
+		timeElapsed = System.currentTimeMillis() - start;
+		timeElapsed = (int) (timeElapsed) / 10 * 10;
+		timeElapsed = timeElapsed /= 1000.0;
+	}
+	
 	public void updateInfinite() {
-		if(spawned >= spawnMax) {
+		if(spawned >= spawnMax && gp.alienManager.aliens.size() == 0) {
 			wave++;
 			spawned = 0;
-			spawnMax = wave * 3;
-			probability = 10 - wave;
-			if(probability < 1) {
-				probability = 1;
-			}
+			spawnMax = (int) (wave + 4);
+//			probability = (int) (21 - Math.pow(1.1, wave));
+			probability = (int) (-wave/2 + 15);
 			if(wave > 1) {
-				cooldownCounter = waveCooldown;
+				cooldownCounter += 60;
 			}
 		}
 	
-		if(cooldownCounter == 0) {
+		if(spawned < spawnMax && cooldownCounter <= 0) {
 			if(time % spawnInterval == 0) {
-				System.out.println("spawn");
 				for(Tile tile : spawnTiles) {
 					if((int)(Math.random() * probability) == 0) {
 						int tileX = tile.x;
@@ -131,6 +139,9 @@ public class Spawner {
 						
 						gp.alienManager.aliens.add(new Alien(gp, tileX, tileY));
 						spawned++;
+						if(spawned >= spawnMax) {
+							break;
+						}
 					}
 				}
 			}
@@ -174,5 +185,9 @@ public class Spawner {
 	
 	public void reset() {
 		time = 0;
+		wave = 0;
+		spawned = 0;
+		spawnMax = 0;
+		start = System.currentTimeMillis();
 	}
 }
