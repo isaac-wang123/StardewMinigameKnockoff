@@ -26,7 +26,7 @@ public class UI {
 	
 	public UI(GamePanel gp) {
 		this.gp  = gp;
-		death = new BufferedImage[15];
+		death = new BufferedImage[16];
 		try {
 			InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
 			maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -61,6 +61,7 @@ public class UI {
 			death[12] = ImageIO.read(getClass().getResourceAsStream("/death/pixil-frame-12.png"));
 			death[13] = ImageIO.read(getClass().getResourceAsStream("/death/pixil-frame-13.png"));
 			death[14] = ImageIO.read(getClass().getResourceAsStream("/death/pixil-frame-14.png"));
+			death[15] = ImageIO.read(getClass().getResourceAsStream("/death/pixil-frame-15.png"));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -130,7 +131,7 @@ public class UI {
 			count++;
 		}
 		
-		if(count > 90 + (death.length - 1) * deathFrameRate) {
+		if(count > 80 + (death.length - 1) * deathFrameRate) {
 			if(newHigh) {
 				g2.setFont(g2.getFont().deriveFont(Font.BOLD, 35F));
 				g2.setColor(Color.red);
@@ -164,7 +165,7 @@ public class UI {
 			
 			text = "Retry";
 			x = getCenterX(text);
-			y += gp.tileSize * 2;
+			y += gp.tileSize * 3;
 			g2.drawString(text, x, y);
 			if(commandNum == 0) {
 				g2.drawString(">", x - gp.tileSize, y);
