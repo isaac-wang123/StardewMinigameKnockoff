@@ -131,7 +131,7 @@ public class UI {
 			count++;
 		}
 		
-		if(count > 80 + (death.length - 1) * deathFrameRate) {
+		if(count > 60 + (death.length - 1) * deathFrameRate) {
 			if(newHigh) {
 				g2.setFont(g2.getFont().deriveFont(Font.BOLD, 35F));
 				g2.setColor(Color.red);
