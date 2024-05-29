@@ -4,24 +4,30 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import entity.Alien;
+import entity.AlienDeath;
 
 public class AlienManager {
 	GamePanel gp;
 	Alien alien;
 	public ArrayList<Alien> aliens;
+	public ArrayList<AlienDeath> ads;
 	
 	public AlienManager(GamePanel gp) {
 		this.gp = gp;
 		aliens = new ArrayList<Alien>();
+		ads = new ArrayList<AlienDeath>();
+
 	}
 	
 	public void updateStatus() {
 		for(int i= 0; i < aliens.size(); i++) {
 			if(aliens.get(i).dead) {
+				ads.add(new AlienDeath(aliens.get(i).x, aliens.get(i).y, gp));
 				aliens.remove(i);
 				i--;
 			}
 		}
+
 	}
 	
 	public void update() {
@@ -29,13 +35,23 @@ public class AlienManager {
 		for(Alien alien : aliens) {
 			alien.update();
 		}
+		for(int i= 0; i < ads.size(); i++) {
+			if(ads.get(i).destroy) {
+				ads.remove(i);
+				i--;
+			}
+		}
 	}
 
 	
 	public void draw(Graphics2D g2) {
+		for(AlienDeath ad : ads) {
+			ad.draw(g2);
+		}
 		for(Alien alien : aliens) {
 			alien.draw(g2);
 		}
+
 	}
 	
 
@@ -64,11 +80,8 @@ public class AlienManager {
 		this.aliens = copy;
 	}
 	
-	public void add(Alien alien) {
-		aliens.add(alien);
-	}
-	
 	public void reset() {
 		aliens.clear();
+		ads.clear();
 	}
 }
