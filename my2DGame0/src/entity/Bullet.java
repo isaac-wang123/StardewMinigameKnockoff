@@ -28,7 +28,7 @@ public class Bullet extends Entity{
 	
 	public void getBulletImage() {
 		try {
-			bulletImage = ImageIO.read(getClass().getResourceAsStream("/bullet/bulletv3.png"));
+			bulletImage = ImageIO.read(getClass().getResourceAsStream("/bullet/bulletv5.png"));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

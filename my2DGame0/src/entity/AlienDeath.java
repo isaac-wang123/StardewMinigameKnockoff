@@ -38,7 +38,6 @@ public class AlienDeath {
 			images[5] = ImageIO.read(getClass().getResourceAsStream("/alienDeath/pixil-frame-5.png"));
 			images[6] = ImageIO.read(getClass().getResourceAsStream("/alienDeath/pixil-frame-6.png"));
 			images[7] = ImageIO.read(getClass().getResourceAsStream("/alienDeath/pixil-frame-7.png"));
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
